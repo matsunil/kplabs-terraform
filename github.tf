@@ -9,7 +9,7 @@ terraform {
 }
 
 provider "github" {
-  token = "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"
+  token = "your-token-here"
 }
 
 resource "github_repository" "example" {
