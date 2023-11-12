@@ -14,15 +14,7 @@ resource "aws_security_group" "allow_ssh" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  egress {
-    description = "Outbound Allowed"
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 }
-
 
 resource "aws_instance" "myec2" {
    ami = "ami-0b1e534a4ff9019e0"
@@ -31,16 +23,11 @@ resource "aws_instance" "myec2" {
    vpc_security_group_ids  = [aws_security_group.allow_ssh.id]
 
    provisioner "remote-exec" {
+     on_failure = continue
      inline = [
        "sudo yum -y install nano"
      ]
    }
-   provisioner "remote-exec" {
-       when    = destroy
-       inline = [
-         "sudo yum -y remove nano"
-       ]
-     }
    connection {
      type = "ssh"
      user = "ec2-user"
