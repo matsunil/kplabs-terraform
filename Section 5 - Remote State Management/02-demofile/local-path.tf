@@ -1,0 +1,3 @@
+module "demomodule" {
+  source = "../consul"
+}
